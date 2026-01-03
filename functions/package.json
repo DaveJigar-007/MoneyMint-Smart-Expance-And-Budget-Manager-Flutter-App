@@ -1,0 +1,18 @@
+{
+    "name": "money-mint-functions",
+    "description": "Cloud Functions for MoneyMint: handle auth deletions",
+    "version": "1.0.0",
+    "engines": {
+        "node": "18"
+    },
+    "main": "index.js",
+    "scripts": {
+        "lint": "eslint .",
+        "serve": "firebase emulators:start --only functions",
+        "deploy": "firebase deploy --only functions"
+    },
+    "dependencies": {
+        "firebase-admin": "^11.10.1",
+        "firebase-functions": "^4.3.0"
+    }
+}
