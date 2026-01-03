@@ -296,6 +296,16 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                                 pattern = input;
                                 showFirstPattern = false; // Hide pattern when user starts drawing
                               });
+                              
+                              // Auto-redirect to confirm pattern if pattern is valid
+                              if (input.length >= 4 && isFirstPattern) {
+                                firstPattern = List.from(input);
+                                setState(() {
+                                  isFirstPattern = false;
+                                  pattern = null;
+                                  patternKey = 'pattern2'; // Change key to force rebuild
+                                });
+                              }
                             },
                           ),
                         ),
@@ -307,38 +317,31 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                           style: TextStyle(color: Colors.red, fontSize: 12),
                         ),
                       const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              if (!isFirstPattern && firstPattern.isNotEmpty)
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      showFirstPattern = !showFirstPattern;
-                                    });
-                                  },
-                                  icon: const Icon(Icons.more_vert),
-                                  tooltip: showFirstPattern ? 'Hide pattern' : 'Show pattern',
-                                ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('CANCEL'),
-                              ),
-                            ],
-                          ),
-                          ElevatedButton(
-                            onPressed: pattern != null && pattern!.length >= 4
-                                ? () {
-                                    if (isFirstPattern) {
-                                      firstPattern = List.from(pattern!);
+                      if (!isFirstPattern)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                if (!isFirstPattern && firstPattern.isNotEmpty)
+                                  IconButton(
+                                    onPressed: () {
                                       setState(() {
-                                        isFirstPattern = false;
-                                        pattern = null;
-                                        patternKey = 'pattern2'; // Change key to force rebuild
+                                        showFirstPattern = !showFirstPattern;
                                       });
-                                    } else {
+                                    },
+                                    icon: const Icon(Icons.more_vert),
+                                    tooltip: showFirstPattern ? 'Hide pattern' : 'Show pattern',
+                                  ),
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('CANCEL'),
+                                ),
+                              ],
+                            ),
+                            ElevatedButton(
+                              onPressed: pattern != null && pattern!.length >= 4
+                                  ? () {
                                       // Verify patterns match
                                       if (_patternsMatch(firstPattern, pattern!)) {
                                         isConfirmed = true;
@@ -362,16 +365,15 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                                         );
                                       }
                                     }
-                                  }
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF274647),
-                              foregroundColor: Colors.white,
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF274647),
+                                foregroundColor: Colors.white,
+                              ),
+                              child: const Text('CONFIRM'),
                             ),
-                            child: Text(isFirstPattern ? 'CONTINUE' : 'CONFIRM'),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
                       if (!isFirstPattern && showFirstPattern && firstPattern.isNotEmpty)
                         Container(
                           margin: const EdgeInsets.only(top: 12),
