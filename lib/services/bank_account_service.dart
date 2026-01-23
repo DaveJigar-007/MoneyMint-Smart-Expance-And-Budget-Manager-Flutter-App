@@ -27,13 +27,13 @@ class BankAccountService {
     'Rajkot Nagarik Sahakari Bank (RNSB)': 0.0,
     'State Bank of India (SBI)': 0.0,
     'Punjab National Bank (PNB)': 1000.0,
-    'Canara Bank': 1000.0,
+    'Canara Bank': 3000.0,
     'Union Bank of India': 1000.0,
-    'Bank of India (BOI)': 1000.0,
+    'Bank of India (BOI)': 1500.0,
     'Indian Bank': 1000.0,
     'Central Bank of India': 1000.0,
     'Indian Overseas Bank (IOB)': 1000.0,
-    'UCO Bank': 1000.0,
+    'UCO Bank': 2000.0,
   };
 
   static double minimumForBank(String bankName) {
